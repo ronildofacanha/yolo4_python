@@ -1,5 +1,7 @@
 <h1 align="center"> Projeto da Equipe z-Index para o Manaus Visão Hack Experience </h1>
 
+<img align="top" src="https://drive.google.com/file/d/11w8T4S4OlOKHz2TfutcQ5YvKdPduZ_6b/view?usp=sharing.png" width="4%" alt="img"/>
+
 ### Pré-requisitos
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:

@@ -4,6 +4,7 @@
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
 - [Python](https://www.python.org/)
+<br>
 Será necessário também baixar os arquivos que estão anexados no drive e adicionar na pasta do projeto
 - [Arquivos a serem adcionado na pasta do projeto](https://drive.google.com/file/d/18FinuhNrxWZugqZVir4AoWVSVysMf_4h/view?usp=sharing)
 

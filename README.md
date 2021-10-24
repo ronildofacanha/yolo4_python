@@ -17,7 +17,7 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
   pip install opencv-python
 
 ### 🎲 Rodando o webcam.py
-Para executar o webcam.py, basta rodaro camando -> python webcam.py
+Para executar o webcam.py, basta rodar o camando -> python webcam.py
 
 # Clone este repositório
 $ git clone <https://github.com/ronildofacanha/zindex.git>

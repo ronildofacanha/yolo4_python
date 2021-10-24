@@ -1,6 +1,6 @@
 <h1 align="center"> Projeto da Equipe z-Index para o Manaus Visão Hack Experience </h1>
 
-<img align="top" src="https://i.ibb.co/Dt3mSXq/yelo.gif" width="4%" alt="img"/>
+<img align="top" src="https://i.ibb.co/Dt3mSXq/yelo.gif" width="50%" alt="img"/>
 
 ### Pré-requisitos
 

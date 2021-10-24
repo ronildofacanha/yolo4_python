@@ -19,5 +19,5 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 Para executar o webcam.py, basta rodaro camando -> python webcam.py
 
 # Clone este repositório
-$ git clone <>
+$ git clone <https://github.com/ronildofacanha/zindex.git>
 

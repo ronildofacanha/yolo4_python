@@ -24,5 +24,5 @@ Editor [VSCode](https://code.visualstudio.com/)
 Para executar o webcam.py, basta rodar o camando -> python webcam.py
 
 # Clone este repositório
-$ git clone <https://github.com/ronildofacanha/zindex.git>
+$ git clone <https://github.com/ronildofacanha/yolo4_python.git>
 

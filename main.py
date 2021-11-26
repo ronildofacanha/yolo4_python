@@ -12,7 +12,7 @@ with open("coco.names", "r") as f:
     class_names = [cname.strip() for cname in f.readlines()]
 
 # CAPTURA DO VIDEO
-cap = cv2.VideoCapture("CenaCoroado.mp4")
+cap = cv2.VideoCapture("SEUVIDEO")
 
 # CARREGANDO OS PESOS DA REDE NEURAL
 net = cv2.dnn.readNet("yolov4-tiny.weights", "yolov4-tiny.cfg")

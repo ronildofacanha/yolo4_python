@@ -7,7 +7,8 @@
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
 - [Python](https://www.python.org/)
 - [OpenCV](https://pypi.org/project/opencv-python/)
-- (Arquivos adcionados na pasta "/yolo4_python") 
+
+Arquivos adcionados na pasta "/yolo4_python"
 - https://drive.google.com/file/d/1ymrSAdsg04i1tAePhEpl7OoMn53U12SE/view?usp=sharing
 
 Editor [VSCode](https://code.visualstudio.com/)

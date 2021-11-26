@@ -6,6 +6,8 @@
 
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
 - [Python](https://www.python.org/)
+- [OpenCV](https://pypi.org/project/opencv-python/)
+
 <br>
 Será necessário também baixar os arquivos que estão anexados no drive e adicionar na pasta do projeto(zindex)
 - (Arquivos a serem adcionado na pasta principal do projeto) https://drive.google.com/file/d/1ymrSAdsg04i1tAePhEpl7OoMn53U12SE/view?usp=sharing
@@ -13,7 +15,7 @@ Será necessário também baixar os arquivos que estão anexados no drive e adic
 Além disto é bom ter um editor para trabalhar com o código como [VSCode](https://code.visualstudio.com/)
 
 # Acesse a pasta do projeto no terminal/cmd
-  cd zindex
+  cd yolo4_python
 
 # Instale as dependências
   pip install opencv-python

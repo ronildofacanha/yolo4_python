@@ -43,21 +43,22 @@ while True:
         color = COLORS[int(classid) % len(COLORS)]
 
         # PEGANDO O NOME DA CLASSE PELO ID E O SEU SCORE DE ACURACIA
-        label = f"{class_names[classid]} : {score}"
+        #label = f"{class_names[classid]} : {score}"
 
+        label2 = "FPS " + ""
         # DESENHANDO A BOX DA DETECÇÃO
         cv2.rectangle(frame, box, color, 2)
 
         # ESCREVENDO O NOME DA CLASSE EM CIMA DA BOX DO OBJETO
-        cv2.putText(frame, label, (box[0], box[1] - 10),
+        cv2.putText(frame, label2, (box[0], box[1] - 10),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
     # CALCULANDO O TEMPO QUE LEVOU PARA FAZER A DETECÇÃO
     fps_label = f"FPS: {round((1.0/(end - start)),2)}"
 
     # ESCREVENDO O FPS NA IMAGEM
-    cv2.putText(frame, fps_label, (0, 25),
-                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 5)
+    # cv2.putText(frame, fps_label, (0, 25),
+    #           cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 5)
     cv2.putText(frame, fps_label, (0, 25),
                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 3)
 
@@ -65,7 +66,7 @@ while True:
     cv2.imshow("frame", frame)
 
     # ESPERA DA RESPOSTA
-    if cv2.waitKey(1) == 27:
+    if cv2.waitKey(1) == "q":
         break
 
 # LIBERAÇÃO DA CAMERA E DESTROI TODAS AS JANELAS

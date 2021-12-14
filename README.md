@@ -20,8 +20,8 @@ Baixe os arquivos do yolo4 e extraia na pasta principal
 # Instale as dependências
   pip install opencv-python
 
-### 🎲 Rodando o webcam.py
-Para executar o webcam.py, basta rodar o camando -> python webcam.py
+### 🎲 Executar 
+Basta o camando -> python arquivo_nome.py
 
 # Clone este repositório
 $ git clone <https://github.com/ronildofacanha/yolo4_python.git>

@@ -8,7 +8,7 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 - [Python](https://www.python.org/)
 - [OpenCV](https://pypi.org/project/opencv-python/)
 
-Download dos arquivos yolo4 cole na pasta principal do projeto "/yolo4_python"
+Baixe os arquivos do yolo4 e extraia na pasta principal
 - https://drive.google.com/file/d/1ymrSAdsg04i1tAePhEpl7OoMn53U12SE/view?usp=sharing
 
 # Acesse a pasta do projeto no terminal/cmd

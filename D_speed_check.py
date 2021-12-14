@@ -1,15 +1,15 @@
-
 import cv2
 import dlib
 import time
+import threading
 import math
+import collections
 
+carCascade = cv2.CascadeClassifier('arquivos/Xcar.xml')
+video = cv2.VideoCapture('arquivos/cars4.mp4')
 
-carCascade = cv2.CascadeClassifier('vech.xml')
-video = cv2.VideoCapture('seuvideo.mp4')
-
-WIDTH = 1280
-HEIGHT = 720
+WIDTH = 720
+HEIGHT = 480
 
 
 def estimateSpeed(location1, location2):
@@ -18,7 +18,9 @@ def estimateSpeed(location1, location2):
     # ppm = location2[2] / carWidht
     ppm = 8.8
     d_meters = d_pixels / ppm
-    fps = 18
+    #print("d_pixels=" + str(d_pixels), "d_meters=" + str(d_meters))
+
+    fps = 18  # tem que ser dinamico
     speed = d_meters * fps * 3.6
     return speed
 
@@ -35,8 +37,9 @@ def trackMultipleObjects():
     carLocation2 = {}
     speed = [None] * 1000
 
-    out = cv2.VideoWriter('outNew.avi', cv2.VideoWriter_fourcc(
-        'M', 'J', 'P', 'G'), 10, (WIDTH, HEIGHT))
+    # Write output to video file
+    # out = cv2.VideoWriter('outpy.avi', cv2.VideoWriter_fourcc(
+    #   'M', 'J', 'P', 'G'), 10, (WIDTH, HEIGHT))
 
     while True:
         start_time = time.time()
@@ -48,6 +51,7 @@ def trackMultipleObjects():
         resultImage = image.copy()
 
         frameCounter = frameCounter + 1
+
         carIDtoDelete = []
 
         for carID in carTracker.keys():
@@ -57,9 +61,9 @@ def trackMultipleObjects():
                 carIDtoDelete.append(carID)
 
         for carID in carIDtoDelete:
-            print("Removing carID " + str(carID) + ' from list of trackers. ')
-            print("Removing carID " + str(carID) + ' previous location. ')
-            print("Removing carID " + str(carID) + ' current location. ')
+            print('Removing carID ' + str(carID) + ' from list of trackers.')
+            print('Removing carID ' + str(carID) + ' previous location.')
+            print('Removing carID ' + str(carID) + ' current location.')
             carTracker.pop(carID, None)
             carLocation1.pop(carID, None)
             carLocation2.pop(carID, None)
@@ -94,7 +98,7 @@ def trackMultipleObjects():
                         matchCarID = carID
 
                 if matchCarID is None:
-                    print(' Creating new tracker' + str(currentCarID))
+                    print('Creating new tracker ' + str(currentCarID))
 
                     tracker = dlib.correlation_tracker()
                     tracker.start_track(
@@ -104,6 +108,8 @@ def trackMultipleObjects():
                     carLocation1[currentCarID] = [x, y, w, h]
 
                     currentCarID = currentCarID + 1
+
+        # cv2.line(resultImage,(0,480),(1280,480),(255,0,0),5)
 
         for carID in carTracker.keys():
             trackedPosition = carTracker[carID].get_position()
@@ -116,6 +122,7 @@ def trackMultipleObjects():
             cv2.rectangle(resultImage, (t_x, t_y),
                           (t_x + t_w, t_y + t_h), rectangleColor, 4)
 
+            # speed estimation
             carLocation2[carID] = [t_x, t_y, t_w, t_h]
 
         end_time = time.time()
@@ -123,31 +130,41 @@ def trackMultipleObjects():
         if not (end_time == start_time):
             fps = 1.0/(end_time - start_time)
 
+        #cv2.putText(resultImage, 'FPS: ' + str(int(fps)), (620, 30),cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 255), 2)
+
         for i in carLocation1.keys():
             if frameCounter % 1 == 0:
                 [x1, y1, w1, h1] = carLocation1[i]
                 [x2, y2, w2, h2] = carLocation2[i]
 
+                # print 'previous location: ' + str(carLocation1[i]) + ', current location: ' + str(carLocation2[i])
                 carLocation1[i] = [x2, y2, w2, h2]
 
+                # print 'new previous location: ' + str(carLocation1[i])
                 if [x1, y1, w1, h1] != [x2, y2, w2, h2]:
                     if (speed[i] == None or speed[i] == 0) and y1 >= 275 and y1 <= 285:
                         speed[i] = estimateSpeed(
-                            [x1, y1, w1, h1], [x1, y2, w2, h2])
+                            [x1, y1, w1, h1], [x2, y2, w2, h2])
 
+                    # if y1 > 275 and y1 < 285:
                     if speed[i] != None and y1 >= 180:
-                        cv2.putText(resultImage, str(int(speed[i])) + "km/h", (int(
-                            x1 + w1/2), int(y1-5)), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 100), 2)
+                        cv2.putText(resultImage, str(int(speed[i])) + " km/hr", (int(x1 + w1/2), int(
+                            y1-5)), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 255, 255), 2)
 
+                    #print ('CarID ' + str(i) + ': speed is ' + str("%.2f" % round(speed[i], 0)) + ' km/h.\n')
+
+                    # else:
+                    #	cv2.putText(resultImage, "Far Object", (int(x1 + w1/2), int(y1)),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+
+                        #print ('CarID ' + str(i) + ' Location1: ' + str(carLocation1[i]) + ' Location2: ' + str(carLocation2[i]) + ' speed is ' + str("%.2f" % round(speed[i], 0)) + ' km/h.\n')
         cv2.imshow('result', resultImage)
+        # Write the frame into the file 'output.avi'
+        # out.write(resultImage)
 
-        out.write(resultImage)
-
-        if cv2.waitKey(1) == 27:
+        if cv2.waitKey(33) == 27:
             break
 
     cv2.destroyAllWindows()
-    out.release()
 
 
 if __name__ == '__main__':

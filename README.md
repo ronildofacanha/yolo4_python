@@ -1,4 +1,4 @@
-<h1 align="center"> Projeto da Equipe z-Index para o Manaus Visão Hack Experience </h1>
+<h1 align="center"> Projeto vencedor do 2° LUGAR no Manaus Visão Hack Experience </h1>
 
 <img align="center" src="https://i.ibb.co/Dt3mSXq/yelo.gif" width="50%" alt="img"/>
 

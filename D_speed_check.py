@@ -6,7 +6,7 @@ import math
 import collections
 
 carCascade = cv2.CascadeClassifier('arquivos/Xcar.xml')
-video = cv2.VideoCapture('arquivos/cars4.mp4')
+video = cv2.VideoCapture('arquivos/cars3.mp4')
 
 WIDTH = 720
 HEIGHT = 480

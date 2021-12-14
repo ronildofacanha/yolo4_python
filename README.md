@@ -1,6 +1,9 @@
-<h1 align="center"> Projeto da Equipe z-Index para o Manaus Visão Hack Experience </h1>
+<h1 align="center"> Projeto vencedor do 2° LUGAR no Manaus Visão Hack Experience </h1>
 
-<img align="center" src="https://i.ibb.co/Dt3mSXq/yelo.gif" width="50%" alt="img"/>
+<a align="center" href="https://ibb.co/BsBKMkQ"><img src="https://i.ibb.co/GPR3Sm8/Z-Index.jpg" alt="Z-Index" width="30%" border="0">
+<img  src="https://i.ibb.co/Dt3mSXq/yelo.gif" width="53%" alt="img"/>
+</a>
+
 
 ### Pré-requisitos
 
@@ -17,8 +20,8 @@ Baixe os arquivos do yolo4 e extraia na pasta principal
 # Instale as dependências
   pip install opencv-python
 
-### 🎲 Rodando o webcam.py
-Para executar o webcam.py, basta rodar o camando -> python webcam.py
+### 🎲 Executar 
+Basta o camando -> python arquivo_nome.py
 
 # Clone este repositório
 $ git clone <https://github.com/ronildofacanha/yolo4_python.git>

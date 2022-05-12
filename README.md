@@ -20,7 +20,7 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 - [dlib](https://pypi.org/project/dlib/)
 
 Baixe os arquivos do yolo4 e extraia na pasta principal
-- https://1drv.ms/u/s!AsDXkjCJnNwegfxoRMkG4kAJzXWJ1w?e=JVgIi4
+- https://1drv.ms/u/s!AsDXkjCJnNwegoIRp_hUgNVUmc4Kfg?e=HtUVlC
 - <img src="https://i.ibb.co/D1W6w5H/Pasta.png" alt="Pasta" border="0">
 
 # Instale as dependências do python

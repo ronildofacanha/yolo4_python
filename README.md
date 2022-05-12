@@ -16,8 +16,8 @@ Baixe os arquivos do yolo4 e extraia na pasta principal
 - https://1drv.ms/u/s!AsDXkjCJnNwegfxoRMkG4kAJzXWJ1w?e=JVgIi4
 
 # Instale as dependências do python
-  pip install opencv-python
-  pip install dlib
+  - pip install opencv-python
+  - pip install dlib
 
 ### 🎲 Executar | No terminal
 python nome_do_aqruivo.py

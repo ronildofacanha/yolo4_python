@@ -1,8 +1,10 @@
 <h1 align="center"> Projeto vencedor do 2° LUGAR no Manaus Visão Hack Experience </h1>
 
+<h2 align="center"
 <img src="https://i.ibb.co/GPR3Sm8/Z-Index.jpg" alt="Z-Index" width="30%" border="0">
 <img src="https://i.ibb.co/Dt3mSXq/yelo.gif" alt="Z-Index" width="53%" border="0">
 <img src="https://i.ibb.co/Zg3zrXY/Captura-de-Tela-62.png"" alt="Z-Index" width="30%" border="0">
+</h2>                                                                                               
                                                                                                                                                                                                                                                                                                                                                                                    
 
 # Clone este repositório

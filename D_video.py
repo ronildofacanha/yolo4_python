@@ -3,13 +3,13 @@ import numpy as np  # Tabalha com a parte cientifica (Vetores e Matrizes)
 import time
 
 # ARQUIVOS
-input_file = 'arquivos/carros1.mp4'
+input_file = 'arquivos/s1.mp4'
 weights_path = 'arquivos/yolov4-tiny.weights'
 cfg_path = 'arquivos/yolov4-tiny.cfg'
 names_path = 'arquivos/coco.names'
 # CONFIG PRECISÃO
-threshold = 0.8  # Nivel de confiança?
-threshold_NMS = 0.3
+threshold = 0.3  # Nivel de confiança?
+threshold_NMS = 0.2
 font_smal, font_big = 0.4, 0.6
 font_tipe = cv2.FONT_HERSHEY_SIMPLEX
 fontLine = 2  # inteiro
@@ -72,7 +72,7 @@ def blobImage(net, img):
     net.setInput(blob)
     layer_Outputs = net.forward(ln)
     end = time.time()
-    print("[TEMPO DE DETECÇÃO] {:.2f} seconds".format(end - start))
+    #print("[TEMPO DE DETECÇÃO] {:.2f} seconds".format(end - start))
     return net, img, layer_Outputs
 
 
@@ -151,8 +151,8 @@ while(cv2.waitKey(1) < 0):
                 _frame, i, AllConfidences, AllBoxes, COLORS, LABELS, AllClassesID)
             objects = imageCopy[y:y+h, x:x+w]
 
-    cv2.putText(_frame, "PROCSSAMENTO {:.2f}s".format(time.time()-t),
-                (20, video_height-20), font_tipe, font_big, (255, 255, 255), fontLine, lineType=cv2.LINE_AA)
+    # cv2.putText(_frame, "PROCSSAMENTO {:.2f}s".format(time.time()-t),
+     #           (20, video_height-20), font_tipe, font_big, (255, 255, 255), fontLine, lineType=cv2.LINE_AA)
 
     cv2.imshow("frame", _frame)
 

@@ -5,7 +5,6 @@ import dlib
 import time
 import threading
 import math
-
 tempoGB = 0
 statusSemaforo = 'null'
 extent = False
@@ -40,8 +39,8 @@ def Calculating_time_extent(classes):
     global extent
     global semaforoAberto
 
-    if tempoGB == 0 and tempoGB < 10:
-        tempoGB = 10
+    if tempoGB == 0 and tempoGB < 20:
+        tempoGB = 20
         extent = False
         t1 = threading.Thread(target=thread_delay, args=(0,))
         t1.start()
@@ -49,8 +48,8 @@ def Calculating_time_extent(classes):
         # Text = 'TEMPO PARA PESSOA: '
         # cv2.putText(frame, Text+str(tempoGB)+'s', (0, 25),
         #           cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 150, 0), 3)
-    if classes == "chair" and extent == False and tempoGB < 15:
-        tempoGB += 5
+    if classes == "chair" and extent == False and tempoGB < 30:
+        tempoGB += 10
         print("TEMPO: CADEIRANTE ", tempoGB)
         extent = True
         # cv2.putText(frame, Text+str(tempoGB)+'s', (0, 25),
@@ -133,13 +132,13 @@ def createBoxes(_img, i, _confidences, _boxes, _COLORS, _LABELS, _AllClassesID):
 # CAPTURA FRAME A FRAME
 def DetectionX():
     # ARQUIVOS
-    input_file = 'arquivos/carros1.mp4'
+    input_file = 'arquivos/lv1.mp4'
     weights_path = 'arquivos/yolov4-tiny.weights'
     cfg_path = 'arquivos/yolov4-tiny.cfg'
     names_path = 'arquivos/coco.names'
     # CONFIG PRECISÃO
-    threshold = 0.6  # Nivel de confiança?
-    threshold_NMS = 0.6
+    threshold = 0.3  # Nivel de confiança?
+    threshold_NMS = 0.4
     font_smal, font_big = 0.4, 0.6
     font_tipe = cv2.FONT_HERSHEY_SIMPLEX
     fontLine = 2  # inteiro
@@ -194,6 +193,7 @@ def DetectionX():
 
         if len(objects) > 0:
             for i in objects.flatten():
+
                 Calculating_time_extent(LABELS[AllClassesID[i]])
 
                 if semaforoAberto:
@@ -205,12 +205,21 @@ def DetectionX():
 
         cv2.putText(_frame, "TEMPO: "+str(count)+'s', (0, 25),
                     cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 150, 0), 3)
-        cv2.putText(_frame, "SEMAFORO: "+str(semaforoAberto), (0, 50),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 150), 2)
+        cv2.putText(_frame, "SEMAFORO: "+str(semaforoAberto), (0, 60),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
         # t1 = threading.Thread(target=thread_delay, args=(5,))
         # t1.start()
         # print(tempoGB)
+        if semaforoAberto:
+            semaforoImage = cv2.imread("arquivos/sTrue.png")
+            cv2.putText(_frame, "N DETECCOES: "+str(len(AllBoxes)), (0, 100),
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+
+        else:
+            semaforoImage = cv2.imread("arquivos/sFalse.png")
+        cv2.imshow('SEMAFORO', semaforoImage)
+
         imageShow(_frame)
 
 

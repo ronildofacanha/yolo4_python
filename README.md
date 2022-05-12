@@ -3,10 +3,7 @@
 <img src="https://i.ibb.co/GPR3Sm8/Z-Index.jpg" alt="Z-Index" width="30%" border="0">
 <img src="https://i.ibb.co/Dt3mSXq/yelo.gif" alt="Z-Index" width="53%" border="0">
 <img src="https://i.ibb.co/Zg3zrXY/Captura-de-Tela-62.png"" alt="Z-Index" width="30%" border="0">
-                                                                                                 
-<img src="https://i.ibb.co/D1W6w5H/Pasta.png" alt="Pasta" border="0">
-                                                                                                                                                                                                 
-                                                                                                 
+                                                                                                                                                                                                                                                                                                                                                                                   
 
 # Clone este repositório
 $ git clone <https://github.com/ronildofacanha/yolo4_python.git>

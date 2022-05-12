@@ -15,15 +15,12 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 Baixe os arquivos do yolo4 e extraia na pasta principal
 - https://1drv.ms/u/s!AsDXkjCJnNwegfxoRMkG4kAJzXWJ1w?e=JVgIi4
 
-# Acesse a pasta do projeto no terminal/cmd
-  cd yolo4_python
-
-# Instale as dependências
+# Instale as dependências do python
   pip install opencv-python
   pip install dlib
 
-### 🎲 Executar 
-Basta o camando -> python arquivo_nome.py
+### 🎲 Executar | No terminal
+python nome_do_aqruivo.py
 
 # Clone este repositório
 $ git clone <https://github.com/ronildofacanha/yolo4_python.git>

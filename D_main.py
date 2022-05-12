@@ -5,58 +5,57 @@ import dlib
 import time
 import threading
 import math
-
-# ARQUIVOS
-input_file = 'arquivos/carros1.mp4'
-weights_path = 'arquivos/yolov4-tiny.weights'
-cfg_path = 'arquivos/yolov4-tiny.cfg'
-names_path = 'arquivos/coco.names'
-# CONFIG PRECISÃO
-threshold = 0.4  # Nivel de confiança?
-threshold_NMS = 0.4
-font_smal, font_big = 0.4, 0.6
-font_tipe = cv2.FONT_HERSHEY_SIMPLEX
-fontLine = 2  # inteiro
-amostrar_exibir = 20
-amostra_atual = 0
+tempoGB = 0
+statusSemaforo = 'null'
+extent = False
+count = 0
+semaforoAberto = True
 
 
-# CARREGANDO NOME DAS CLASSES
-with open(names_path, 'r') as names:
-    LABELS = [cname.strip() for cname in names.readlines()]
-# CARREGANDO ARQUIVOS
-net = cv2.dnn.readNetFromDarknet(cfg_path, weights_path)
-net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
-# CORES DAS CLASSES
-np.random.seed(50)
-COLORS = np.random.randint(0, 255, size=(len(LABELS), 3), dtype='uint8')
-# CAMADAS DE SAIDA
-ln = net.getLayerNames()
-ln = [ln[i-1] for i in net.getUnconnectedOutLayers()]
-# CARREGAR VIDEO
-cap = cv2.VideoCapture(0)
-connected, video = cap.read()
-video_height = video.shape[0]
-video_width = video.shape[1]
+def thread_delay(null):
+    global tempoGB
+    global count
+    global semaforoAberto
+    count = 0
+    while count < tempoGB:
+        print("TEMPO:->:", count)
+        time.sleep(1)
+        count += 1
 
-# TAMANHO DO VIDEO
+    if count == tempoGB:
+        tempoGB = 0
+        if semaforoAberto == False:
+            semaforoAberto = True
+        else:
+            semaforoAberto = False
 
-
-def reSizeX(_width, _height, _widthMax=600):
-    if(_width > _widthMax):
-        newSize = _width / _height
-        video_width = _widthMax
-        video_height = int(video_width/newSize)
-    else:
-        video_width = _width
-        video_height = _height
-    return video_width, video_height
+        print('SEMAFORO', '->', semaforoAberto)
+    return 0
 
 
-video_width, video_height = reSizeX(video_width, video_height)
+def Calculating_time_extent(classes):
+
+    global tempoGB
+    global extent
+    global semaforoAberto
+
+    if tempoGB == 0 and tempoGB < 20:
+        tempoGB = 20
+        extent = False
+        t1 = threading.Thread(target=thread_delay, args=(0,))
+        t1.start()
+        print("TEMPO: PESSOA ", tempoGB)
+        # Text = 'TEMPO PARA PESSOA: '
+        # cv2.putText(frame, Text+str(tempoGB)+'s', (0, 25),
+        #           cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 150, 0), 3)
+    if classes == "chair" and extent == False and tempoGB < 30:
+        tempoGB += 10
+        print("TEMPO: CADEIRANTE ", tempoGB)
+        extent = True
+        # cv2.putText(frame, Text+str(tempoGB)+'s', (0, 25),
+        #           cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 150, 0), 3)
 
 
-# MOSTRAR IMAGEM
 def imageShow(img):
     cv2.imshow('TELA DE CAPTURA', img)
     # print(img.shape) # FORMATO DA IMAGEM
@@ -65,7 +64,7 @@ def imageShow(img):
 
 
 # CONSTUÇÃO DO BLOB
-def blobImage(net, img):
+def blobImage(net, img, ln):
     start = time.time()
     blob = cv2.dnn.blobFromImage(
         img, 1/255.0, (416, 416), swapRB=True, crop=False)
@@ -83,7 +82,7 @@ def detectionImage(_detection, _threshold, _AllBoxes, _AllConfidences, _AllClass
     classeID = np.argmax(scores)
     confidence = scores[classeID]
     if confidence > _threshold:
-        box = detection[0:4] * np.array([W, H, W, H])
+        box = _detection[0:4] * np.array([W, H, W, H])
         (centerX, centerY, width, height) = box.astype('int')
         x = int(centerX - (width/2))
         y = int(centerY - (height/2))
@@ -94,7 +93,20 @@ def detectionImage(_detection, _threshold, _AllBoxes, _AllConfidences, _AllClass
     return _AllBoxes, _AllConfidences, _AllClassesID
 
 
+# TAMANHO DO VIDEO
+def reSizeX(_width, _height, _widthMax=600):
+    if(_width > _widthMax):
+        newSize = _width / _height
+        video_width = _widthMax
+        video_height = int(video_width/newSize)
+    else:
+        video_width = _width
+        video_height = _height
+    return video_width, video_height
+
 # CRIAR CAIXAS
+
+
 def createBoxes(_img, i, _confidences, _boxes, _COLORS, _LABELS, _AllClassesID):
     (x, y) = (_boxes[i][0], _boxes[i][1])
     (w, h) = (_boxes[i][2], _boxes[i][3])
@@ -118,41 +130,109 @@ def createBoxes(_img, i, _confidences, _boxes, _COLORS, _LABELS, _AllClassesID):
 
 
 # CAPTURA FRAME A FRAME
-while(cv2.waitKey(1) < 0):  # CLIQUE [1]  EXIT
-    _connected, _frame = cap.read()
-    if not _connected and type(_frame) == type(None):
-        print("VIDEO NULL")
-        break
-    t = time.time()
-    _frame = cv2.resize(_frame, (video_width, video_height))
-    try:
-        (H, W) = _frame.shape[:2]
-    except:
-        print('VIDEO SHAPE ERRO')
-        continue
+def DetectionX():
+    # ARQUIVOS
+    input_file = 'arquivos/lv1.mp4'
+    weights_path = 'arquivos/yolov4-tiny.weights'
+    cfg_path = 'arquivos/yolov4-tiny.cfg'
+    names_path = 'arquivos/coco.names'
+    # CONFIG PRECISÃO
+    threshold = 0.3  # Nivel de confiança?
+    threshold_NMS = 0.4
+    font_smal, font_big = 0.4, 0.6
+    font_tipe = cv2.FONT_HERSHEY_SIMPLEX
+    fontLine = 2  # inteiro
+    amostrar_exibir = 20
+    amostra_atual = 0
+    # CARREGANDO NOME DAS CLASSES
+    with open(names_path, 'r') as names:
+        LABELS = [cname.strip() for cname in names.readlines()]
+    # CARREGANDO ARQUIVOS
+    net = cv2.dnn.readNetFromDarknet(cfg_path, weights_path)
+    net.setPreferableBackend(cv2.dnn.DNN_BACKEND_OPENCV)
+    # CORES DAS CLASSES
+    np.random.seed(50)
+    COLORS = np.random.randint(0, 255, size=(len(LABELS), 3), dtype='uint8')
+    # CAMADAS DE SAIDA
+    ln = net.getLayerNames()
+    ln = [ln[i-1] for i in net.getUnconnectedOutLayers()]
+    # CARREGAR VIDEO
+    cap = cv2.VideoCapture(0)
+    connected, video = cap.read()
+    video_height = video.shape[0]
+    video_width = video.shape[1]
 
-    net, _frame, layerOutputs = blobImage(net, _frame)
-    AllBoxes = []
-    AllConfidences = []
-    AllClassesID = []
+    # CLIQUE [1]  EXIT
+    video_width, video_height = reSizeX(video_width, video_height)
 
-    for output in layerOutputs:
-        for detection in output:
-            AllBoxes, AllConfidences, AllClassesID = detectionImage(
-                detection, threshold, AllBoxes, AllConfidences, AllClassesID, _frame)
+    while(cv2.waitKey(1) < 0):
+        _connected, _frame = cap.read()
+        if not _connected and type(_frame) == type(None):
+            print("VIDEO NULL")
+            break
+        t = time.time()
+        _frame = cv2.resize(_frame, (video_width, video_height))
+        try:
+            (H, W) = _frame.shape[:2]
+        except:
+            print('VIDEO SHAPE ERRO')
+            continue
 
-    objects = cv2.dnn.NMSBoxes(AllBoxes, AllConfidences,
-                               threshold, threshold_NMS)
+        net, _frame, layerOutputs = blobImage(net, _frame, ln)
+        AllBoxes = []
+        AllConfidences = []
+        AllClassesID = []
 
-    if len(objects) > 0:
-        for i in objects.flatten():
-            _frame, x, y, w, h = createBoxes(
-                _frame, i, AllConfidences, AllBoxes, COLORS, LABELS, AllClassesID)
+        for output in layerOutputs:
+            for detection in output:
+                AllBoxes, AllConfidences, AllClassesID = detectionImage(
+                    detection, threshold, AllBoxes, AllConfidences, AllClassesID, _frame)
 
-    cv2.putText(_frame, "PROCSSAMENTO {:.2f}s".format(time.time()-t),
-                (20, video_height-20), font_tipe, font_big, (255, 255, 255), fontLine, lineType=cv2.LINE_AA)
+        objects = cv2.dnn.NMSBoxes(AllBoxes, AllConfidences,
+                                   threshold, threshold_NMS)
 
-    imageShow(_frame)
+        if len(objects) > 0:
+            for i in objects.flatten():
 
-print("terminou")
-cv2.destroyAllWindows()
+                Calculating_time_extent(LABELS[AllClassesID[i]])
+
+                if semaforoAberto:
+                    _frame, x, y, w, h = createBoxes(
+                        _frame, i, AllConfidences, AllBoxes, COLORS, LABELS, AllClassesID)
+
+        cv2.putText(_frame, "PROCSSAMENTO {:.2f}s".format(time.time()-t),
+                    (20, video_height-20), font_tipe, font_big, (255, 255, 255), fontLine, lineType=cv2.LINE_AA)
+
+        cv2.putText(_frame, "TEMPO: "+str(count)+'s', (0, 25),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 150, 0), 3)
+        cv2.putText(_frame, "SEMAFORO: "+str(semaforoAberto), (0, 60),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+
+        # t1 = threading.Thread(target=thread_delay, args=(5,))
+        # t1.start()
+        # print(tempoGB)
+        if semaforoAberto:
+            semaforoImage = cv2.imread("arquivos/sTrue.png")
+            cv2.putText(_frame, "N DETECCOES: "+str(len(AllBoxes)), (0, 100),
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+
+        else:
+            semaforoImage = cv2.imread("arquivos/sFalse.png")
+        cv2.imshow('SEMAFORO', semaforoImage)
+
+        imageShow(_frame)
+
+
+def main():
+    print("MAIN!")
+    DetectionX()
+    # t1 = threading.Thread(target=thread_delay, args=(5,))
+    t2 = threading.Thread(target=DetectionX, args=('',))
+    # t1.start()
+    t2.start()
+    print("terminou: ")
+    cv2.destroyAllWindows()
+
+
+if __name__ == "__main__":
+    main()

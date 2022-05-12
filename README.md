@@ -10,6 +10,7 @@
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
 - [Python](https://www.python.org/)
 - [OpenCV](https://pypi.org/project/opencv-python/)
+- [dlib](https://pypi.org/project/dlib/)
 
 Baixe os arquivos do yolo4 e extraia na pasta principal
 - https://1drv.ms/u/s!AsDXkjCJnNwegfxoRMkG4kAJzXWJ1w?e=JVgIi4
@@ -19,6 +20,7 @@ Baixe os arquivos do yolo4 e extraia na pasta principal
 
 # Instale as dependências
   pip install opencv-python
+  pip install dlib
 
 ### 🎲 Executar 
 Basta o camando -> python arquivo_nome.py

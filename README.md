@@ -4,6 +4,8 @@
 <img  src="https://i.ibb.co/Dt3mSXq/yelo.gif" width="53%" alt="img"/>
 </a>
 
+# Clone este repositório
+$ git clone <https://github.com/ronildofacanha/yolo4_python.git>
 
 ### Pré-requisitos
 
@@ -21,7 +23,4 @@ Baixe os arquivos do yolo4 e extraia na pasta principal
 
 ### 🎲 Executar | No terminal
 python nome_do_aqruivo.py
-
-# Clone este repositório
-$ git clone <https://github.com/ronildofacanha/yolo4_python.git>
 
